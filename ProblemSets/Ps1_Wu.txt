@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{ProblemSet 1}
+\author{Yue Wu}
+\date{January 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{Summary}
+
+In order to make decisions, data studying and analysis are accurate and reliable. I am interested in how to make best decisions through data analysis. 
+
+Through the courses I have taken, I learned programming and research skills. My expectation for this class is apply economic knowledge into the real society, and improve my programming skills.
+
+Buying a house is the main target of most middle class people live in urban area, so the housing price would  significant affects people life quality. I have made a simple model to predict the housing price in certain city. In this class, I expect to develop my model further and generalized the model to different cities.
+
+After graduation, I will apply for Economic PHD program in OU. I love economics, and I would spend all my life on solving Economics problems. 
+
+\section{Equation}
+
+         a^2 + b^2 = c^2
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=1.7]{coding.jpg}
+\caption{When I am coding}
+\label{fig:When I am coding}
+\end{figure}
+
+\end{document}
