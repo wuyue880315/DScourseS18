@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{ProblemSet 7}
+\author{Yue Wu}
+\date{March 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{Type of missing values}
+
+The missing rate is 25.13%.
+
+The missing value in logwage is more like MNAR.  Because there is reasons that people keep their income secretly, and we can't use other variable to account the missing values.
+
+\section{Table}
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+logwage & 1,669 & 1.625 & 0.386 & 0.005 & 2.261 \\ 
+hgc & 2,229 & 13.101 & 2.524 & 0 & 18 \\ 
+tenure & 2,229 & 5.971 & 5.507 & 0.000 & 25.917 \\ 
+age & 2,229 & 39.152 & 3.062 & 34 & 46 \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} ccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & logwage & hgc & college & tenure & age & married \\ 
+\hline \\[-1.8ex] 
+1 & $$ & $12$ & not college grad & $5.333$ & $37$ & single \\ 
+2 & $1.856$ & $12$ & not college grad & $5.250$ & $37$ & single \\ 
+3 & $1.613$ & $12$ & not college grad & $1.250$ & $42$ & single \\ 
+4 & $2.201$ & $17$ & college grad & $1.750$ & $43$ & married \\ 
+5 & $2.090$ & $12$ & not college grad & $17.750$ & $42$ & married \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} 
+
+\begin{table}[!htbp] \centering 
+  \caption{} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{3}{c}{logwage} \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ hgc & 0.062$^{***}$ & 0.050$^{***}$ & 0.062$^{***}$ \\ 
+  & (0.005) & (0.004) & (0.004) \\ 
+  & & & \\ 
+ collegenot college grad & 0.145$^{***}$ & 0.168$^{***}$ & 0.145$^{***}$ \\ 
+  & (0.034) & (0.026) & (0.025) \\ 
+  & & & \\ 
+ poly(tenure, 2)1 & 4.855$^{***}$ & 3.799$^{***}$ & 5.694$^{***}$ \\ 
+  & (0.346) & (0.312) & (0.301) \\ 
+  & & & \\ 
+ poly(tenure, 2)2 & $-$1.836$^{***}$ & $-$1.977$^{***}$ & $-$2.318$^{***}$ \\ 
+  & (0.345) & (0.311) & (0.300) \\ 
+  & & & \\ 
+ age & 0.0004 & 0.0002 & 0.0004 \\ 
+  & (0.003) & (0.002) & (0.002) \\ 
+  & & & \\ 
+ marriedsingle & $-$0.022 & $-$0.027$^{**}$ & $-$0.022$^{*}$ \\ 
+  & (0.018) & (0.014) & (0.013) \\ 
+  & & & \\ 
+ Constant & 0.709$^{***}$ & 0.848$^{***}$ & 0.726$^{***}$ \\ 
+  & (0.145) & (0.115) & (0.111) \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Observations & 1,669 & 2,229 & 2,229 \\ 
+R$^{2}$ & 0.208 & 0.147 & 0.277 \\ 
+Adjusted R$^{2}$ & 0.206 & 0.145 & 0.275 \\ 
+Residual Std. Error & 0.344 (df = 1662) & 0.308 (df = 2222) & 0.297 (df = 2222) \\ 
+F Statistic & 72.917$^{***}$ (df = 6; 1662) & 63.973$^{***}$ (df = 6; 2222) & 141.686$^{***}$ (df = 6; 2222) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+\section{Conclusion}
+According the table above, the b1 in regression (2) is 0.818. Compare to other models, b1 in model (2) is closer to the true value. Model (2) was estimated after missing values imputed by mean of logwages in complete cases.
+Due to the b1 in model (2) is closer to true, i believe that model (2) is better model than the other two models. Then, the missing values are more like MNAC.
+
+The b1 in the model after multiple imputation is 0.79. If we increases "m" in the mice commend, the new b1 might be closer to true value. But imputation of mean is still better when "m" equal to 5.
+
+\section{Project Data}
+
+I will use 2 data sets in my project. One is about the information of previous games in past 20 years. The other data set is about the game players, what games they have spend money on. I have already clean the first data set, but I am still working on the finding of second data set. 
+
+The first model will be looks like 
+
+sales = b0+b1*price +b2*type +b3*online +b4*producer + e
+
+I have to make sure there is no relationships between independent variables.
+
+Also, if there is, I will find nonlinear relationship between dependent and independent variables.
+
+For missing values, I will use multiple imputation. Because this method will give me most accurate result if "m" is large enough.
+
+\end{document}
