@@ -130,17 +130,17 @@ Final grades will be assigned according to the standard cutoffs (90%+ for an A, 
 | Mar 22 | Th  | No class (Spring break)                                       |                                                                                                                                |
 | Mar 27 | T   | Intro to Machine Learning ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) | [PS 8](https://github.com/tyleransom/DScourseS18/blob/master/ModelingOptimization/PS8.pdf) |
 | Mar 29 | Th  | Supervised ML ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) |                                                                                                                                |
-| Apr 3  | T   | Unsupervised ML ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) | PS 9                                                                                                                          |
+| Apr 3  | T   | Supervised ML ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) | [PS 9](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/PS9.pdf) |
 | Apr 5  | Th  | Unsupervised ML ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) |                                                                                                                                |
-| Apr 10 | T   | Machine learning vs. econometrics ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) | PS 10                                                                                                                          |
-| Apr 12 | Th  | Evaluating ML model performance                               |                                                                                                                                |
+| Apr 10 | T   | Unsupervised ML ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) | PS 10                                                                                                                          |
+| Apr 12 | Th  | Machine learning vs. econometrics ([Notes](https://github.com/tyleransom/DScourseS18/blob/master/MachineLearning/README.md)) |                                                                                                                                |
 | Apr 17 | T   | Structural modeling                                           | PS 11                                                                                                                          |
 | Apr 19 | Th  | Structural modeling                                           |                                                                                                                                |
-| Apr 24 | T   | Structural modeling                                           | PS 12                                                                                                                          |
+| Apr 24 | T   | Field Trip to Sonic HQ | PS 12  |
 | Apr 26 | Th  | Final Project presentations ([Rubric](https://github.com/tyleransom/DScourseS18/blob/master/FinalProject/README.md)) | |
 | May 1  | T   | Final Project presentations  ([Rubric](https://github.com/tyleransom/DScourseS18/blob/master/FinalProject/README.md)) | |
 | May 3  | Th  | Final Project presentations   ([Rubric](https://github.com/tyleransom/DScourseS18/blob/master/FinalProject/README.md)) |  |
-| May 8  | T   | Final Exam (in class, 1:30-3:30pm)                            | Final project due |
+| May 8  | T   | Final Exam (in class, 1:30-3:30pm)                            | Final project due ([Scoresheet](https://github.com/tyleransom/DScourseS18/blob/master/FinalProject/Scoresheet.pdf)) |
 
 
 ## Helpful Links ##
