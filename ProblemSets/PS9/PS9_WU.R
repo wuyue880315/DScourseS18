@@ -49,9 +49,12 @@ resampleStrat <- makeResampleDesc(method = "CV", iters = 10)
 
 # Do the resampling
 sampleResults <- resample(learner = predAlg, task = theTask, resampling = resampleStrat, measures=list(rmse))
+sampleResults <- resample(learner = predAlg, task = theTask1, resampling = resampleStrat, measures=list(rmse))
 
 # Mean RMSE across the 6 folds
 print(sampleResults$aggr)
+
+
 
 #############
 #LASSO model#
@@ -96,6 +99,8 @@ prediction <- predict(finalModel, newdata = housing.test)
 
 print(head(prediction$data))
 
+performance(prediction, measures = list(rmse))
+
 ##################
 #Ridge regression#
 ##################
@@ -133,8 +138,10 @@ finalModel <- train(learner = predAlg, task = theTask)
 # Predict in test set!
 prediction <- predict(finalModel, newdata = housing.test)
 
+performance(prediction, measures = list(rmse))
+
 ###################
-#slastic net model#
+#elastic net model#
 ###################
 
 # Search over penalty parameter lambda and force elastic net parameter to be 0 (ridge)
@@ -169,3 +176,6 @@ finalModel <- train(learner = predAlg, task = theTask)
 
 # Predict in test set!
 prediction <- predict(finalModel, newdata = housing.test)
+
+# Performance
+performance(prediction, measures = list(rmse))
