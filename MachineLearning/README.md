@@ -486,7 +486,7 @@ Before getting the test, we believed we had HIV with probability 0.003 (the popu
 If P(positive) were equal to 0.003, then we'd be really worried because that would mean that the false positive rate of the test was much lower. If that were the case, our posterior probability would skyrocket to 0.99 from 0.297. 
 
 ### Naive Bayes and Bayes Rule
-How does the above formula relate to Naive Bayes as a classification algorithm? It turns out that we can compute an observations probability of being a certain class (P(Y = y), y=0 or y=1) based on the data that we have.
+How does the above formula relate to Naive Bayes as a classification algorithm? It turns out that we can compute an observation's probability of being a certain class (P(Y = y), y=0 or y=1) based on the data that we have.
 
 We want to know P(Y | X) which is our "updated" hypothesis or posterior probability. Let's say we want to classify people as college graduates or not. Our prior would be the rate of college graduates in our data set (e.g. 30%). We observe their X's (e.g. family income, parent's education, high school class rank, etc.). We want to look at a new observation's X's and make a reasonable guess as to whether they are a college graduate.
 
@@ -515,7 +515,7 @@ Bayesian algorithms actually don't use regularization in the same way as the oth
     * Relies on the **naive** assumption that X variables are mutually indpendent
     * Can be computationally expensive to compute in the testing phase
 
-Naive Bayes is most famous for working well with spam classification and other text classification objectives.
+Naive Bayes is most famous for working well with spam classification and other text classification objectives (e.g. document classification).
 
 ## k Nearest Neighbors (kNN) and Support Vector Machine (SVM)
 kNN and SVM are the two workhorse algorithms of the analogizers. They seek to find commonality between different instances of data.
@@ -566,6 +566,41 @@ The regularization parameters that needs to be cross-validated in SVM models are
     * Not well suited for "Big K" data (i.e. when the number of columns of X is larger than the number of rows)
     * It doesn't produce a probabilistic out-of-sample prediction
 
+## Using the Five Tribes' algorithms in `mlr`
+| Tribe Name     | Master Algorithm(s)     | R package | Regularization parameters | `mlr` algorithm name |
+|----------------|-------------------------|-----------|---------------------------|----------------------|
+| Symbolists     | Tree models             | `rpart`   | `minsplit` (integer), `minbucket` (integer), `cp` (numeric, typically very small) | `classif.rpart` |
+| Connectionists | Neural networks         | `nnet`    | `size` (number of neurons in hidden layer; integer), `decay` (lambda; numeric) | `classif.nnet` |
+| Evolutionaries | Genetic algorithms      | `GA`      | N/A | N/A |
+| Bayesians      | Naive Bayes             | `e1071`   | N/A | N/A |
+| Analogizers    | Nearest neighbor        | `kknn`    | `k` (integer) | `classif.kknn` |
+|                | Support Vector Machine  | `e1071`   | `cost` (numeric ranging from 2^-10 to 2^10); `gamma` (same as `cost`) | `classif.svm` |
+
+## Recommender systems
+One commonly used application for prediction algorithms is recommender systems. For example, Netflix or YouTube want to "recommend" to you what to watch next, based on what you've shown interest in previously. The target variable here is "how much the user will like offering W" and the features are things like "list of shows the user has watched previously" or "list of shows user showed interest in previously" (e.g. by reading the overview of a video).
+
+There are three main types of ways to form a recommendation system:
+
+1. Collaborative filtering
+    * Create recommendations based on what users who are similar to you are consuming
+    * e.g. if we both like rock music, but you listen to a slightly different set of bands than I do, then the best recommendation for me are the bands that you listen to, but I don't
+    * This approach relies on having a large number of users
+    * It assumes that people who have a lot in common will continue to have a lot in common
+    * kNN is the fundamental way to pick out the new recommendations using this approach
+2. Content-based filtering
+    * Create recommendations based on quantifiable characteristics about what you are consuming
+    * e.g. come up with a way to describe each product's characteristics (e.g. a song by Rush vs. a song by Metallica, etc.)
+    * Recommend new products to users whose average description matches the new products
+    * This approach relies on coming up with a way to quantify each product's characteristics
+    * It will only recommend new products that are closely related to the user's existing portfolio
+    * Bayesian classifiers and neural networks are popular algorithms for offering new recommendations using this approach
+3. Hybrid recommender systems
+    * Because collaborative and content-based filtering each have advantages and disadvantages, it often is the case that better recommendations can be had by combining the two approaches
+
+### How to build a recommender system in R
+The simplest R package to do this is called `recommenderlab` and a step-by-step example is [here](https://www.r-bloggers.com/recommender-systems-101-a-step-by-step-practical-example-in-r/). Another walkthrough using the same library to build moving recommendations is [here](http://rstudio-pubs-static.s3.amazonaws.com/150913_3ccebcc146d84e5e98c40fc548322929.html).
+
+As far as I can tell, `mlr` does not provide an interface to the `recommenderlab` package.
 
 # Helpful links
 * [Mullainathan & Spiess (2017)](https://www.aeaweb.org/articles?id=10.1257/jep.31.2.87&within%5Btitle%5D=on&within%5Babstract%5D=on&within%5Bauthor%5D=on&journal=3&q=mullainathan&from=j)
