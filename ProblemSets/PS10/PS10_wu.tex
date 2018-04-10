@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{ProblemSet 10}
+\author{Yue Wu}
+\date{04 / 08 / 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[]
+\centering
+\caption{Optimal values}
+\label{my-label}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllllllllllllll@{}}
+\toprule
+ & f1 & gmean & minsplit & minbucket & cp & lambda & alpha & size & decay & maxit & k & kernel & cost & gamma \\ \midrule
+tree & 0.8892894 & 0.6314273 & 46 & 44 & 0.0159 &  &  &  &  &  &  &  &  &  \\
+logistic & 0.8633508 & 0.0000000 &  &  &  & 0.133 & 0.0501 &  &  &  &  &  &  &  \\
+neural & 0.9087688 & 0.7599325 &  &  &  &  &  & 10 & 0.359 & 1000 &  &  &  &  \\
+bayes & 0.8825952 & 0.7340489 &  &  &  &  &  &  &  &  &  &  &  &  \\
+knn & 0.8907731 & 0.7411231 &  &  &  &  &  &  &  &  & 29 &  &  &  \\
+svm & 0.8953264 & 0.6888767 &  &  &  &  &  &  &  &  &  & radial & 1 & 2 \\ \bottomrule
+\end{tabular}%
+}
+\end{table}
+
+From the table we can see that neural model has highest f1 and gmean value. Because we targeting the maximum f1 and gmean value, the neural model might be the best model in this case.
+
+\end{document}
+
