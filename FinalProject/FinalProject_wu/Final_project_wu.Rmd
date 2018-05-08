@@ -1,0 +1,225 @@
+---
+title: "Video Game Global Sales Exploration Analysis"
+author: "Yue Wu"
+header-includes:
+- \usepackage{setspace}\doublespacing
+fontsize: 12pt
+date: "May 5, 2018"
+output: pdf_document
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning = FALSE)
+library(ggplot2)
+library(plyr)
+```
+
+###Abstract: 
+This project targets on the factors of video game global sales. According the analysis of the relationship between video games global sales and those factors, video game player and producers's behavior will be briefly explained.
+
+
+\newpage
+### Introduction
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; United States is the largest video game market in the world. In 2017, the revenue from video games was 23.5 billion dollars in United States. Compare to the revenue from video games in 2010 in United States(11.5 billion dollars), the game revenue has doubled after 7 years.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Figure 1 shows how many games had been made each year during 1980 to 2016. In 1994, Sony used its research and technology to create its own game device, and that device changed game market forever. Sony's first device, the PlayStation, launched in December of 1994. At beginning, there were only eight games on PlayStation. New technology brought better gaming experience, so the demand of games increased by a large amount. Because of the visible benefit exist in the game market, there was a lot of new game producers enter the game market.  After 1994, only on PlayStation, more than four thousands games had been made in 20 years.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xbox was released by Microsoft in November 15, 2001. As one of the top technology company in the world, Microsoft has graphically advandage compared to its rivals, featured a standard PC's 733 MHz Intel Pentium III processor. By enter the game market, Xbox division generated 3.9 billion in revenues during the company's Q2 of fiscal 2018, that's up 8 percent. In figure 1, the number of game released in 2002 had huge growth compare to 2001.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Game market's rapid development changed people's life. In 2017, 65% households in United States that own a device used for playing video games, the average number of games years gamers have been playing is 13. The population of gamer covers all age levels, both of genders, and any type of labors in society.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Being a big fan of video games, I am always eager to explore the data which about video game's industry. This project is trying to find out what is the gamer's favorite device, what type of game people would like to play, and what type of games producer would like to make.\
+
+\newpage
+
+### Data
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The data could be download form https://www.kaggle.com/rush4ratio/video-game-sales-with-ratings/downloads/Video_Games_Sales_as_at_22_Dec_2016.csv.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This data motivated by Gregory Smith's web scrape of VGChartz Video Games Sales, it sets simply extends the number of variables with another web scrape from Metacritic. Unfortunately, there are missing observations as Metacritic only covers a subset of the platforms. \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table 1 contains summary statistics of the data. The data contains 16719 games and 9 characters for each game(after I drop some unnecessary variables such as Europe sales and Japan sales). \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The global sales of the video games is dependent variable, it measures the demand of the certain video game in the market.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Platform is the device of the game could be played on. \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Genre describes what type of the certain game is.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Both critic and user score measure the quality of games. The question is that which score is the best one to measure the quality? The critics are chosen after careful thought and their scores considered with tylor-made mathematical formulas. Compare to the critics score, user score is given less carefully, however, the result might be more credible if the number of user review is large enough. To find out which score is reliable, let's create a simple model:\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Global sales = b0 + b1* user score + b2 * critic score\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table 2 contains summary of the model above. In this table, the estimate of user score is negative. User score is the measurement of quality, it is supposed to have positive relationship with global sales. So in this case, we will use critic score to measure the quality.\
+
+
+
+\newpage
+###Literature review
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I found a paper wrote by Dmitri Williams at 28 May 2009. This paper is talking about the structure and competition in the US home video game industry.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The video game industry has continued to grow dramatically over the past decade, cutting into mainstream media in participation and revenues as it becomes part of mainstream media culture. Following the industrial organization model, this paper conceptualizes and systematically analyzes five vertical stages and the key market segments of consoles, handheld and PC‐based games. Genre‐based measures of content show that the different game platforms have varying levels of product diversity, driven by differing levels of risk and rewards. Comparisons in production and distribution are made with other major media. The main conclusion is that the industry is reaching a mature phase with concentration and integration beginning to be found in its stages. A mainstreaming of content is partially countered by a vibrant community of developers, mostly for PC games. As a standard‐based industry, non‐interoperability and network effects continue to play a key role in preserving competition in a field with a shrinking number of firms.
+
+\newpage
+
+###Method
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After I explore number of different approaches, the best model I can find can be describe by following equation:\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Global sales(log) = b0 + b1 * Critic score + b2 * Genre + b3 * platform + e\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Global sales is the dependent variables, which is a numberic variable. Global sales measures the demand of the certain game in the global game market. Because the original global sales data is highly skewed, to make the histogram look more like normal distribution, I transform global sales by command "log".\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Critic score is a integer variable, it measures the quality of the certain game. The expectation is that there is positive relationship between critic score and global sales. \
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Genre is a character variable. Through analyze the estimate of Genre, we could find out what type of games people prefer to play.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Platform is also character variable, Through analyze the estimate of Platform, we could find out what device is good for gaming.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table 3 is the summary of the model. The coefficient of critic score is 0.0451176. Each point of critic score increase will lead to 0.0451176 percent increase on global sales. It makes sense because good quality video games deserved more global sales. Because of the p-value is a small number, this result is significant. figure 2 shows that the positive relationship between critic score and global sales.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Platform is the devices for gaming, from the table 3, we can see that PlayStation, PlayStation2, PlayStation3, XBox 360 and Wii have positive coefficients. That means those device have positive effect to certain game's global sales. In other word, Games are created for playing on those devices are more popular.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In 1994, as a electronics categories company, Sony launched the first PlayStation, which introduced 3D graphics to the industry. After that, the video game industry has been changed forever. And Sony never stop developing its technology, each generation of PlayStation has huge improvement upon the graphic performance. Sony and its PlayStation leaded the industry until Microsoft launched XBox in 2001. Xbox is created with the Inter 3rd generation processer in it, which is the best processer at that time. Sony and Microsoft in particular have been strong competitors: Their PlayStation 3 and Xbox 360 consoles, each sold more than 80 million units. Sony launched PS4 in 2013 for seeing advantage in the platform industry, but Microsoft launch Xbox One right after that. Until today, PlayStation users and Xbox users are still arguing on the internet. competition make those two companies focus on the development of their own technology. PlayStation is good at graphic performance, but Xbox has advantage on processer.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Figure 3 shows the average of global sales and average critic score for each type of device. The size of the circle measures the number of games for certain device. We can see that all PlayStation and Xbox device are located at top of the figure. That means average global sales of games upon PlayStation and Xbox is more than other devices.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;From the table 3 and figure 3, we can see that PC games sales less than console games. There are two reasons. First, PC for gaming is more expensive than console. If people want the best gaming experience on PC, they must spend more than 2000 dollars on expensive hardware such as graphic card memory disk and motherboard. The best graphic card cost more than 900 dollars in the market. Second, PC gaming require some basic knowledge about computer such as how do build a PC, but console games are so much easier, people only need to plug it in and play.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Figure 4 shows the mean of the global sales and critic score of each game genre. From this figure, we can see that the top three genre people would like to play are sports, shooter, and fighting. The common of those genre is that opponents are exist. That means the goal of those type game is very clear: beat the enemies. I am going to use shooter games as a example to explain why those type of games are more popular. "Bing ready to fight is a expectation of manhood," says sociologist Ross Haenfler. The outhor of Goth, Gamer and Grrrls: Deviance and Youth Subcultures says that studies of masculinity show that many boys and men feel as though they have something to prove. Certain types of games, Haenfler says, tap in to man's psychological need to prove their masculinity by allowing players to "dominate" each other, defeating an opponent and making them look weak. People need to feel like they are in control of their actions is a psychological craving just as important as hunger or sleep. Another important need is "relatedness"-feeling like you are connected with other people, that you have material impact on each other. Shooter hits these needs better than other games genres because people are making their own decisions. And you are intimately related to the other player you have to shoot him, and his only job is to shoot you. Because those genre of games satisfy player's needs better than other genre of games, the average of global sales of those genre of games are more than others. Also, it's no surprise that major publishers pump out more and more of shooter, fight, and sports games. The numbers of game for genre could be presented by size of circle in figure 4.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With the explosive growth of the gaming industry, especially in recent years, more and more game publisher companies are founded. Some successful publisher create more and better games than others, because they have better developer, more resources, and better advertising. Current generation consoles have more advanced graphic capabilities than previous consoles. Taking advantage of those capabilities requires a larger team-size than games on earlier, simpler consoles. In order to compete with the best games on these consoles, there are more characters to animate; all characters must be modeled with a higher level of detail; more textures must be created; the entire art pipeline must be made more complex to allow the creation of normal maps and more complex programming code is required to simulate physics in the game world, and to render everything as precisely and quickly as possible. Top companies such as Sony Interactive Entertainment and Activision Blizzard have better resources to do the job, so their games have better critic score and more global sales than other companies' game. Figure 5 shows the mean of global sales and critic scores for each publisher in the data. Circle size measures the number of games made by certain company. So we can consider that the companies with larger circle are successful companies. In figure 5, most of successful companies located at top right side of the graph. From the graph, we can see that there are some small companies made good games with high cirtic score, but the global sales of these games are very low. It might because those companies are not good at advertisement, or their game is not fit the game market.
+
+###Findings
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;God Of War, the newest game on PlayStation 4, was launched April 28th 2018. Compare to the first game on PlayStation in 1994, God Of War is extremely better in every aspect. In 1994, people could never image that how good is video game looks like today. Technology development is the primary reason of the improvement of video games. There are four primary ways technology has changed gaming: Artificial Intelligence, Online playing, third dimension, and graphical upgrades.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Artificial Intelligence, as known as AI, has been around from the beginning of the gaming industry. It is not anything innovative; it was there all the time when you were playing Pong. But what is actually new is the fact that AI is beginning to mimic humans more and more each day now. Because the enemies act like human, players are attracted by the game easier instead of fighting with robot. Ai can certainly be regarded as the biggest technological advancement in video games, since it's the one that's quite responsible for the existence of video games.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Compare to play with AI, play with another player is always more interesting. Today, people can engage and play with fellow gamers online irrespective of their geographical locations. For example, the unrivalled champion of this area-World of Warcraft has more than eight million subscribers. This means that eight million people are connected to each other through an online society. It was impossible a few decades before, it is a reality today. Online Play is a separate world of its own presently.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Two dimensions have their own limitation. You can do only so much with them, top and down, platformers, and views. The possibilities of what you can do are going to be exhausted eventually. Three dimensional games were already present in 1980s, for instance, there were games like Red Racer. However, early platform didn't look that appealing and were also convoluted to an extent. Today, most games are three dimensional games. With the betterment of graphics software, they are even looking better. The stride to the third dimension has changed something fundamental regarding the way games look and feel.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Technology has apparently allowed for enhanced graphics by means of hardware upgrades. The Pong era, on the other hand, had limited processors. As a result there wasn't much that could be done to do away with choppy performance. Today is the scene of high-speed hardware, which allows for more instructions, pixels, and shading-even on an enormous scale.\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Due to shooter, sport and fighting game are more popular, top publisher would like to create more and more those type of games. In 2015, 27.5% of new games are shooter game. So that shooter games use plenty of capital from the game industry. Other type of games such as strategy and Adventure games are fading form the market. With the explosive growth of the gaming industry, especially in recent years, competition between publishers also turned white-hot. Some companies created wonderful games with high critic score, but the sales of those games was too low. For example, there was a game called Planescape: Torment, was created in 1999. This game was the only game who earned over 9.1 critic score in that year. However, due to the game has a lot of profound dialogue, and it takes too long to finish the game(2-3 months), only a few player would like to but this game. Unfortunately, the publisher of Planescape: Torment, Black Isle was dead after that game. That was a sad story in video game's history. In order to chasing revenue, publishers have to try everything to satisfy player's taste.
+
+###Conclusion
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VR is the hottest topic for game device in past few years. Current VR technology most commonly uses virtual reality headsets. Today, we can't image what will video games looks like in the future. 20 years back technology seemed that is was front-line of the one that was about to come. And perhaps the same will happen. While it's not possible to predict the future, is is fair to say that virtual reality has been a developing topic recently. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Due to player would like to play shooter, fighting and sport games, those three type of games will keep leading the game market for a long time. For publishers, it is risky to create a new game which is not shooter, fight, or sport.
+\newpage
+
+###Figures
+
+```{r}
+
+gamedata<-read.csv('Video_Games_Sales_as_at_22_Dec_2016.csv')
+
+plot(gamedata$Year_of_Release,col = "blue",
+     ylab = "Number of games had been released",
+     xlab = "year",
+     main = "Figure 1"
+     )
+```
+
+```{r}
+gamedata$logGlobal_sale<-log(gamedata$Global_Sales)
+par(mar=c(4,4,4,1),cex=1)
+plot(gamedata$Critic_Score,gamedata$logGlobal_sale,
+     pch=4,
+     ylab = "Global sales(log)",
+     xlab = "User score",
+     col = 'blue',
+     main = 'Figure 2',
+     xlim = c(0,100))
+abline(lm(gamedata$logGlobal_sale~gamedata$Critic_Score),col = "red")
+```
+
+Figure 3
+
+```{r}
+
+#Add "None" to gamedata$developer levels.
+
+levels<-levels(gamedata$Developer)
+levels[length(levels)+1]<-"Unknown"
+gamedata$Developer<-factor(gamedata$Developer,levels = levels)
+gamedata$Developer[gamedata$Developer==""]<-"Unknown"
+
+#I consider the missing values are completey at ramdom(MCAR).
+#Drop the entire offending row and our final results will not be biased.
+gamedata<-gamedata[!is.na(gamedata$Critic_Score),]
+gamedata<-gamedata[!is.na(gamedata$Year_of_Release),]
+gamedata<-data.frame(gamedata)
+
+gamedata$Genre<-as.factor(gamedata$Genre)
+
+Platform<-aggregate(gamedata[,],list(gamedata$Platform),mean)
+count<-count(gamedata$Platform)
+Platform$count<-count$freq
+Platform$device<-Platform$Group.1
+ggplot(Platform,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)+
+  geom_text(data=Platform,
+            aes(x=Critic_Score,
+                y=logGlobal_sale,
+                label=device),
+            vjust=1.5,size=4)
+```
+
+Figure 4
+
+```{r}
+Genre<-aggregate(gamedata[,],list(gamedata$Genre),mean)
+count<-count(gamedata$Genre)
+Genre$count<-count$freq
+Genre$type<-Genre$Group.1
+ggplot(Genre,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)+
+  geom_text(data=Genre,
+            aes(x=Critic_Score,
+                y=logGlobal_sale,
+                label=type),
+            vjust=1.5,size=4)
+```
+
+
+Figure 5
+
+```{r}
+Publisher<-aggregate(gamedata[,],list(gamedata$Publisher),mean)
+count<-count(gamedata$Publisher)
+Publisher$count<-count$freq
+Publisher$company<-Publisher$Group.1
+ggplot(Publisher,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)
+```
+
+
+###Tables
+
+Table 1
+```{r}
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-8]
+gamedata<-gamedata[,-9]
+gamedata<-gamedata[,-10]
+summary(gamedata)
+```
+
+table 2
+
+```{r}
+gamedata$User_Score<-as.numeric(gamedata$User_Score)
+gamedata$Global_Sales<-as.numeric(gamedata$Global_Sales)
+
+fit1<-lm(gamedata$Global_Sales ~ gamedata$User_Score + gamedata$Critic_Score)
+summary(fit1)
+```
+table 3
+```{r}
+
+fit<-lm(data = gamedata, logGlobal_sale ~ Genre + Platform + Critic_Score )
+summary(fit)
+```
+
+\newpage
+
+##Reference
+https://www.kaggle.com/rush4ratio/video-game-sales-with-ratings/downloads/Video_Games_Sales_as_at_22_Dec_2016.csv
+
+@articleahnal2004; title = Anupdateontheeffectsofplayingviolentvideogames; author = CraigA:Anderson; institution = IowaStateUniversity; type = Journal; year = 2004
+
+@articleahnal2009; title = Thevirtualcensus : representationsofgender; raceandageinvideogames; author DmitriWilliams;NicoleMartins;MiaConsalvoandJamesD:Ivory; type = Journal; year = 2009
+
+@articleahnal2001; title = TheUltimateHistoryofV ideoGames; author = StevenL:Kent; type = Book; year = 2001
+
+@articleahnal2017; title = Differences in Video Game Meta Critic and Users Scores; type = Journal; year = 2017
+
+@articleahnal2017; title = Xbox Launch lead Microsoft's gaming division to 8% growth; author = Jeff Grubb ;type = Journal; year = 2017
+
+@articleahnal2017; title = 2017 Video Game Trends and Statistics ; author = Krista Lofgren ; type = Journal ; year = 2017
+
+@articleahnal2011; title = When gamers disagree with critics ; author = Jason Dietz ; type = survey ; year = 2011
+
+@articleahnal2014; title= On its 20th anniversary, sony soaks up its PlayStation successes ; author = John Gaudiosi ; type = newspaper , year = 2014
+
+@articleahnal2012; title = Why shooting games make your vrain happy ; author = Ryan Rigney ; type = Journal ; year = 2012
+
+@articleahnal2017; title = Four ways Technology Has Changed Gaming; Type = paper ; Year = 2017
