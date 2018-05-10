@@ -1,0 +1,149 @@
+---
+title: "README_wu-1"
+author: "Yue Wu"
+date: "May 9, 2018"
+header-includes:
+- \usepackage{setspace}\doublespacing
+fontsize: 30pt
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = FALSE)
+library(ggplot2)
+library(plyr)
+```
+
+###Data
+
+The data is from kaggle: https://www.kaggle.com/rush4ratio/video-game-sales-with-ratings/downloads/Video_Games_Sales_as_at_22_Dec_2016.csv\
+
+First, let's load the data into a vector called "gamedata"\
+```{r}
+gamedata<-read.csv('Video_Games_Sales_as_at_22_Dec_2016.csv') #Format into data frame
+```
+
+Before we clean the data, I would like to plot the number of games released by defferent years. If I do the plot after clean data, the plot will be biased because some games were deleted.
+```{r}
+gamedata$Year_of_Release[gamedata$Year_of_Release=="N/A"]<-NA
+plot(gamedata$Year_of_Release,col = "blue",
+     ylab = "Number of games had been released",
+     xlab = "year",
+     main = "Figure 1"
+)
+```
+
+Second I deleted some variables because we will not use them in our analysis.
+```{r}
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-6]
+gamedata<-gamedata[,-8]
+gamedata<-gamedata[,-9]
+gamedata<-gamedata[,-10]
+head(gamedata)
+```
+
+Then we have do deal with the missing value in the critic score. I consider the missing values are completey at ramdom(MCAR).
+```{r}
+gamedata<-gamedata[!is.na(gamedata$Critic_Score),]
+```
+
+Because the variable global sales is highly skewed. I have to use "log" to transform this variable.
+```{r}
+gamedata$logGlobal_sale<-log(gamedata$Global_Sales)
+```
+
+
+###Model
+First, I have to pick one between user score and critic score to measure the quality of games.\
+To do that, I am giong to find the relationships between user and critic score and global sales.\
+```{r}
+gamedata$Critic_Score<-as.numeric(gamedata$Critic_Score)
+gamedata$User_Score<-as.numeric(gamedata$User_Score)
+fit1<-lm(gamedata$Global_Sales ~ gamedata$User_Score + gamedata$Critic_Score)
+summary(fit1)
+```
+Because the result shows that the user-score and global sales have nagetive relationship, it doesn't make sense. So i chose critic score to measure the quality.\
+
+Here is the plot of the critic score and global sales. Make sure they have positive relationship.
+```{r}
+par(mar=c(4,4,4,1),cex=1)
+plot(gamedata$Critic_Score,gamedata$logGlobal_sale,
+     pch=4,
+     ylab = "Global sales(log)",
+     xlab = "User score",
+     col = 'blue',
+     main = 'Figure 2',
+     xlim = c(0,100))
+abline(lm(gamedata$logGlobal_sale~gamedata$Critic_Score),col = "red")
+```
+
+
+My equation is Global sales(log) = b0 + b1 * Critic score + b2 * Genre + b3 * platform + e\
+
+```{r}
+fit<-lm(data = gamedata, logGlobal_sale ~ Genre + Platform + Critic_Score )
+#summary(fit)
+```
+The result from the summary of the equation (I don't print the summary because it is really long list):\
+---Critic_score have positive relationship with global sales. Each point increases in critic score will lead to 0.04% increases
+in global sales.\
+---Some polular genres have positive relationship with global sales.(Shooters,Sport,Fighting)\
+---Some good device have positive relationship with global sales.(PS,XBOX)
+
+
+###Findings
+
+To find out what device is polular, I draw the graphy below:
+```{r}
+Platform<-aggregate(gamedata[,],list(gamedata$Platform),mean)
+count<-count(gamedata$Platform)
+Platform$count<-count$freq
+Platform$device<-Platform$Group.1
+ggplot(Platform,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)+
+  geom_text(data=Platform,
+            aes(x=Critic_Score,
+                y=logGlobal_sale,
+                label=device),
+            vjust=1.5,size=4)
+```
+
+This graphy shows that the mean global sales and mean critic scores of each device in the data, the circle size measures the numbers of games.\
+Devices with higher technology have more games, and thier games have more global sales.\
+
+
+To find out what genre of game is polular, I drwa the graphy below:
+```{r}
+Genre<-aggregate(gamedata[,],list(gamedata$Genre),mean)
+count<-count(gamedata$Genre)
+Genre$count<-count$freq
+Genre$type<-Genre$Group.1
+ggplot(Genre,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)+
+  geom_text(data=Genre,
+            aes(x=Critic_Score,
+                y=logGlobal_sale,
+                label=type),
+            vjust=1.5,size=4)
+```
+
+This graphy shows the mean global sales and critic score for each genre of game. The size of circle measures the number of games for certain gerne.\
+Shtooer, Fighting and Sports game have more global sales because those games are stimulatte people's brain.\
+
+To find out what companies are more successful, I draw the praphy below:
+```{r}
+Publisher<-aggregate(gamedata[,],list(gamedata$Publisher),mean)
+count<-count(gamedata$Publisher)
+Publisher$count<-count$freq
+Publisher$company<-Publisher$Group.1
+ggplot(Publisher,aes(x=Critic_Score,y=logGlobal_sale,size=count))+ 
+  geom_point(shape=21)
+```
+
+This graphy shows the mean global sales and critic score for each company. The size of circle measures the number of games for certain company.\
+I consider the companies with large circle are more successful because they produce more games.\
+Successful companies have more resources and better developer team, so their games have better quality(critic score) and more global sales. Also, successful companies have better advertisment.
+
